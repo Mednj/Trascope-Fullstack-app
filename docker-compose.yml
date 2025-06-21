@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: transcope-db
+    environment:
+      POSTGRES_DB: transcope
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - transcope-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d transcope"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: transcope-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transcope
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: false
+      JWT_SECRET: your-super-secret-jwt-key-that-should-be-at-least-512-bits-long-for-hs512-algorithm-this-is-64-bytes-minimum-required
+      JWT_EXPIRATION: 86400000
+      CORS_ALLOWED_ORIGINS: "*"
+      CORS_ALLOWED_METHODS: GET,POST,PUT,DELETE,OPTIONS
+      CORS_ALLOWED_HEADERS: "*"
+      CORS_ALLOW_CREDENTIALS: true
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - transcope-network
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    container_name: transcope-frontend
+    ports:
+      - "8082:80"
+    depends_on:
+      - backend
+    networks:
+      - transcope-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  transcope-network:
+    driver: bridge 

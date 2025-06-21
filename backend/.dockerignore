@@ -1,0 +1,13 @@
+target/
+!target/classes/
+!target/maven-archiver/
+!target/maven-status/
+!target/transcope-backend-*.jar
+.git/
+.gitignore
+README.md
+*.md
+.idea/
+*.iml
+.vscode/
+*.log 

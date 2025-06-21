@@ -1,6 +1,6 @@
 # Transcope - Merchant Payment Dashboard
 
-A modern, responsive React frontend for managing payment transactions, merchant sites, and POS devices. Built to integrate with a Spring Boot backend API.
+A modern, responsive React frontend for managing payment transactions for merchants. Built to integrate with a Spring Boot backend API.
 
 ## 🚀 Features
 
@@ -9,7 +9,7 @@ A modern, responsive React frontend for managing payment transactions, merchant 
 - **Transaction Management** - Complete CRUD operations for payment transactions
 - **Site Management** - Manage merchant locations and store information
 - **POS Device Management** - Track and configure point-of-sale devices
-- **Responsive Design** - Modern UI with Tailwind CSS and shadcn/ui components
+- **Responsive Design** - Modern UI with Tailwind CSS
 
 ## 🏗️ Architecture
 
@@ -35,126 +35,12 @@ The frontend is configured to work with a Spring Boot backend running on `http:/
 ### Frontend Setup
 
 1. **Clone and install dependencies:**
-```bash
 npm install
-```
 
 2. **Start the development server:**
-```bash
 npm run dev
-```
 
-The frontend will be available at `http://localhost:5000`
-
-### Spring Boot Backend Setup
-
-Create a Spring Boot application with the following structure:
-
-#### Required Dependencies (pom.xml)
-```xml
-<dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-validation</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>io.jsonwebtoken</groupId>
-        <artifactId>jjwt-api</artifactId>
-        <version>0.11.5</version>
-    </dependency>
-</dependencies>
-```
-
-#### Required Entities
-
-**User.java**
-```java
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    private UUID id;
-    private String username;
-    private String password;
-    private String email;
-    private String merchantName;
-    private String industry;
-    private String role = "MERCHANT";
-    private LocalDateTime createdAt;
-    // constructors, getters, setters
-}
-```
-
-**MerchantSite.java**
-```java
-@Entity
-@Table(name = "merchant_sites")
-public class MerchantSite {
-    @Id
-    private UUID id;
-    private String name;
-    private String address;
-    @ManyToOne
-    private User user;
-    private LocalDateTime createdAt;
-    // constructors, getters, setters
-}
-```
-
-**PosDevice.java**
-```java
-@Entity
-@Table(name = "pos_devices")
-public class PosDevice {
-    @Id
-    private UUID id;
-    private String deviceId;
-    private String model;
-    @ManyToOne
-    private MerchantSite site;
-    private LocalDateTime createdAt;
-    // constructors, getters, setters
-}
-```
-
-**Transaction.java**
-```java
-@Entity
-@Table(name = "transactions")
-public class Transaction {
-    @Id
-    private UUID id;
-    private BigDecimal amount;
-    private String currency = "USD";
-    private String status;
-    private String type;
-    private String customerName;
-    private LocalDateTime timestamp;
-    @ManyToOne
-    private User user;
-    @ManyToOne
-    private PosDevice posDevice;
-    // constructors, getters, setters
-}
-```
-
-#### Required API Endpoints
+#### API Endpoints
 
 The frontend expects these endpoints to be available:
 
@@ -195,7 +81,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:5000")
+                .allowedOrigins("http://localhost:8082")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
@@ -331,7 +217,3 @@ The application includes comprehensive form validation and error handling:
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.

@@ -6,7 +6,8 @@ import type {
   TransactionWithDetails, PosDeviceWithSite, MerchantSiteWithDevices
 } from "@shared/schema";
 
-const SPRING_BOOT_BASE_URL = "http://localhost:8080/api";
+// Use relative URL for Docker setup (nginx will proxy to backend)
+const SPRING_BOOT_BASE_URL = "/api";
 
 async function springBootRequest(method: string, endpoint: string, data?: any): Promise<Response> {
   const url = `${SPRING_BOOT_BASE_URL}${endpoint}`;
