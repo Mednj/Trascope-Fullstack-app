@@ -51,7 +51,7 @@ public class TransactionController {
         User user = userService.getUserByEmail(auth.getName());
         
         // Fetch the device and validate it belongs to the user
-        PosDevice device = posDeviceRepository.findById(transactionDto.getDeviceId())
+        PosDevice device = posDeviceRepository.findById(transactionDto.getPosDeviceId())
                 .orElseThrow(() -> new RuntimeException("Device not found"));
         
         if (!device.getSite().getUser().getId().equals(user.getId())) {
@@ -81,7 +81,7 @@ public class TransactionController {
                     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                     User user = userService.getUserByEmail(auth.getName());
                     
-                    PosDevice device = posDeviceRepository.findById(transactionDto.getDeviceId())
+                    PosDevice device = posDeviceRepository.findById(transactionDto.getPosDeviceId())
                             .orElseThrow(() -> new RuntimeException("Device not found"));
                     
                     if (!device.getSite().getUser().getId().equals(user.getId())) {

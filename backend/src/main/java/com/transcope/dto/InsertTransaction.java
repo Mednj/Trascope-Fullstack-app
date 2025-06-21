@@ -30,20 +30,20 @@ public class InsertTransaction {
     @Size(max = 255, message = "Customer name must be less than 255 characters")
     private String customerName;
     
-    @NotNull(message = "Device ID is required")
-    private UUID deviceId;
+    @NotNull(message = "POS Device ID is required")
+    private UUID posDeviceId;
     
     // Constructors
     public InsertTransaction() {}
     
     public InsertTransaction(BigDecimal amount, String currency, String status, String type, 
-                           String customerName, UUID deviceId) {
+                           String customerName, UUID posDeviceId) {
         this.amount = amount;
         this.currency = currency;
         this.status = status;
         this.type = type;
         this.customerName = customerName;
-        this.deviceId = deviceId;
+        this.posDeviceId = posDeviceId;
     }
     
     // Getters and Setters
@@ -87,11 +87,11 @@ public class InsertTransaction {
         this.customerName = customerName;
     }
     
-    public UUID getDeviceId() {
-        return deviceId;
+    public UUID getPosDeviceId() {
+        return posDeviceId;
     }
     
-    public void setDeviceId(UUID deviceId) {
-        this.deviceId = deviceId;
+    public void setPosDeviceId(UUID posDeviceId) {
+        this.posDeviceId = posDeviceId;
     }
 } 
