@@ -2,7 +2,7 @@
 
 Check Demo Below:
 
-Uploading demo recording of Transcope.mp4…
+https://github.com/user-attachments/assets/9946c8f7-1f2e-497f-812e-473ae5568dea
 
 
 A full-stack CRUD application built with Spring Boot, React, and PostgreSQL. Features JWT authentication, complete transaction management, and Docker deployment.
